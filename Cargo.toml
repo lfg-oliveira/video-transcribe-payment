@@ -6,10 +6,10 @@ edition = "2021"
 [dependencies]
 axum = { version = "0.7.7", features = ["tokio"] }
 brcode = "1.4.2"
-libsql = "=0.6.0"
+mercadopago-sdk-rust = "0.1.1"
 reqwest = { version = "0.12.8", features = ["json"] }
 serde = { version = "1.0.210", features = ["derive", "serde_derive"] }
-sqlx = { version = "=0.8.2", features = ["runtime-tokio", "sqlite"] }
+sqlx = { version = "=0.8.2", features = ["runtime-tokio", "mysql"] }
 string-builder = "0.2.0"
 tokio = { version = "1.40.0", features = ["full"] }
 

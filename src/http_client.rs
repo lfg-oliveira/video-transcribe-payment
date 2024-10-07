@@ -1,7 +1,7 @@
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
-use crate::services::pix_service::{CobImediata, CobImediataReq, CobrancaResponse};
+use crate::services::pix_service::{ CobImediataReq, CobrancaResponse};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
