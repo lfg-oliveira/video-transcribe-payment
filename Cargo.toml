@@ -1,0 +1,17 @@
+[package]
+name = "video-transcribe-payment"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.7.7", features = ["tokio"] }
+brcode = "1.4.2"
+libsql = "=0.6.0"
+reqwest = { version = "0.12.8", features = ["json"] }
+serde = { version = "1.0.210", features = ["derive", "serde_derive"] }
+sqlx = { version = "=0.8.2", features = ["runtime-tokio", "sqlite"] }
+string-builder = "0.2.0"
+tokio = { version = "1.40.0", features = ["full"] }
+
+[dev-dependencies]
+dotenv = "0.15.0"
