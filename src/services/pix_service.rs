@@ -83,3 +83,21 @@ pub async fn gera_qr_code(Json(data): Json<CobImediataReq>) -> Result<Response, 
     let pix_str = get_qr_code_string(response.valor.original, &response.loc.location, "VideoTranscribe");
     return Ok(pix_str.into_response())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn pix_api_test() {
+        let code =  gera_qr_code(Json::from(
+            CobImediataReq {
+                valor: Valor { original: 14.00},
+                devedor: Devedor { nome: "Luiz Felipe Guidorizzi de Oliveira".to_string(), cpf: "40510870856".to_string() }
+                }
+        )).await.ok().unwrap();
+
+
+        println!("{:?}", code)
+    }
+}
