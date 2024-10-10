@@ -8,7 +8,7 @@ use axum::{
 };
 use reqwest::StatusCode;
 use tokio::net::TcpListener;
-use services::pix_service::{gera_qr_code, CobImediataReq};
+use services::pix_service::{gera_qr_code, VTRequest};
 
 #[tokio::main]
 async fn main() {
@@ -22,10 +22,11 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-pub async fn string_qr_code(payload: Json<CobImediataReq>) -> (StatusCode, Response){
+pub async fn string_qr_code(Json(payload): Json<VTRequest>) -> Response
+{
     match gera_qr_code(payload).await {
-        Ok(o) => return (StatusCode::OK, o),
-        Err(_) => return (StatusCode::BAD_GATEWAY, "An error ocurred".into_response())
+        Ok(r) =>  r.into_response(),
+        Err(_) => "Error with generating pix".into_response()
     }
 }
 
@@ -39,10 +40,10 @@ mod tests {
     #[tokio::test]
     async fn main_test() -> Result<(), Box<dyn Error>>{
         dotenv().ok();
-        let con = create_connection()
+        let mut con = create_connection()
             .await?;
 
-        create_plan(&con, 1, 1, Status::Waiting)
+        create_plan(& mut con, 1, 1, Status::Waiting)
             .await?;
         Ok(())
     }

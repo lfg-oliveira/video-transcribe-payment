@@ -1,7 +1,6 @@
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
-use crate::services::pix_service::{ CobImediataReq, CobrancaResponse};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -56,15 +55,6 @@ pub struct InfoAdicionai {
 }
 
 
-pub async fn pix_api_call(cob: CobImediataReq) -> Result<CobrancaResponse, reqwest::Error>  {
-    let client = Client::new();
-
-    let response = client.post("baas-api-sandbox.c6bank.info/v2/pix/cob")
-        .json(&cob)
-        .send()
-        .await?
-        .json()
-        .await;
-
-    response
+pub async fn pix_api_call(cob: i64) -> Result<(), reqwest::Error>  {
+    todo!()
 }
