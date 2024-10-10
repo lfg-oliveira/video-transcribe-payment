@@ -17,7 +17,7 @@ impl BBAccessToken {
     pub async fn new() -> serde_json::Value {
         let basic = format!("Basic {}", env::var("BASIC_TOKEN").expect("BASIC_TOKEN envvar not found!"));
 
-        let req = Url::parse("https://oauth.hm.bb.com.br/oauth/token");
+        let req = "https://oauth.hm.bb.com.br/oauth/token";
 
         let client = Client::builder();
         let mut headers = HeaderMap::new();
@@ -26,14 +26,12 @@ impl BBAccessToken {
         headers.insert("Content-Type", HeaderValue::from_str("application/x-www-form-urlencoded").unwrap());
         let client = client.default_headers(headers).build().unwrap();
 
-        let req_builder = RequestBuilder::from_parts(client, req);
         
-        let (client, req) = match req_builder.build_split() {
-            (c, Ok(r)) => (c, r),
-            (_, Err(_)) => panic!("Error building request")
-        };
-
-        let response = client.execute(req).await.unwrap();
+        let response = client.post(req)
+        .query(&[("grant_type", "client_credentials")])
+        .send()
+        .await
+        .unwrap();
 
         let resp = response.json().await.unwrap();
 
@@ -135,7 +133,7 @@ pub async fn gera_qr_code(data: VTRequest) -> Result<String, Box<dyn Error>> {
     .default_headers(headers)
     .build().unwrap();
 
-    let response: BBGeneratePixResponse = client.post(format!("https://https://api.hm.bb.com.br/pix/v2/cob?gw-dev-app-key={dev_key}"))
+    let response: BBGeneratePixResponse = client.post(format!("https://api.hm.bb.com.br/pix/v2/cob?gw-dev-app-key={dev_key}"))
     .json(&BBGerarPix::from(data))
     .send()
     .await?
