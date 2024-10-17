@@ -7,6 +7,8 @@ from definitions import CERT_PATH, CLIENT_ID, CLIENT_SECRET
 import log
 from pix_info import PixInfo
 import sqlalchemy
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
 cert = 'homologacao-619113-VTH_cert.pem'
@@ -18,6 +20,19 @@ chave = '9c61202f-9c2a-4503-8003-f6b1f79e8899'
 @app.get('/')
 def healthcheck():
     return "API online"
+
+origins = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post('/create-pix')
 def get_pix(pix_info: PixInfo) -> str:

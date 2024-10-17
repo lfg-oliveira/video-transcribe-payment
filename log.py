@@ -7,7 +7,7 @@ from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 
-engine = sqlalchemy.create_engine('mysql+pymysql://root@localhost/video_transcribe')
+engine = sqlalchemy.create_engine('mysql+pymysql://root:1234@localhost/video-transcribe')
 
 class Base(DeclarativeBase):
     pass
